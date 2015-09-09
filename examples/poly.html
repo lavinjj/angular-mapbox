@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Mapbox Angular directive</title>
+    <link href="https://api.tiles.mapbox.com/mapbox.js/v1.6.2/mapbox.css" rel="stylesheet"/>
+    <link href='https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-draw/v0.2.2/leaflet.draw.css' rel='stylesheet'/>
+</head>
+<body ng-app="angular-mapbox-drawing-example">
+<div ng-controller="demoController">
+    <mapbox map-id="licyeus.i2pd1g7j" lat="47.603569" lng="-122.329453" zoom="13">
+    </mapbox>
+    <div>&nbsp;</div>
+    <div><button ng-click="onUpdatePolyData()">Update Poly Data</button></div>
+    <div ng-bind="polyData"></div>
+</div>
+
+<script src="https://api.tiles.mapbox.com/mapbox.js/v1.6.2/mapbox.js"></script>
+<script src='https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-draw/v0.2.2/leaflet.draw.js'></script>
+<script src='https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-geodesy/v0.1.0/leaflet-geodesy.js'></script>
+<script src="lib/angular-1.2.js"></script>
+<script src="../dist/angular-mapbox.js"></script>
+<script src="drawing-example-app.js"></script>
+</body>
+</html>

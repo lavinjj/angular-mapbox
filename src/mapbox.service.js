@@ -25,7 +25,9 @@
       addMarker: addMarker,
       removeMarker: removeMarker,
       fitMapToMarkers: fitMapToMarkers,
-      getOptionsForMap: getOptionsForMap
+      getOptionsForMap: getOptionsForMap,
+      addDrawingLayer: addDrawingLayer,
+      getPolyArea: getPolyArea
     };
     return service;
 
@@ -112,7 +114,7 @@
 
       _drawControl = new L.Control.Draw({
         edit: {
-          featureGroup: _featureGroup
+          featureGroup: _drawingFeatureGroup
         },
         draw: drawOptions
       }).addTo(map);
