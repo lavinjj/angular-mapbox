@@ -6,7 +6,9 @@
   function mapboxService() {
     var _mapInstances = [],
         _markers = [],
-        _mapOptions = [];
+        _mapOptions = [],
+        _drawingFeatureGroup,
+        _drawControl;
 
     var fitMapToMarkers = debounce(function() {
       // TODO: refactor
@@ -23,7 +25,9 @@
       addMarker: addMarker,
       removeMarker: removeMarker,
       fitMapToMarkers: fitMapToMarkers,
-      getOptionsForMap: getOptionsForMap
+      getOptionsForMap: getOptionsForMap,
+      addDrawingLayer: addDrawingLayer,
+      getPolyArea: getPolyArea
     };
     return service;
 
@@ -104,5 +108,49 @@
       // TODO: get options for specific map instance
       return _mapOptions[0];
     }
+
+    function addDrawingLayer(map, drawOptions){
+      _drawingFeatureGroup = L.featureGroup().addTo(map);
+
+      _drawControl = new L.Control.Draw({
+        edit: {
+          featureGroup: _drawingFeatureGroup
+        },
+        draw: drawOptions
+      }).addTo(map);
+
+      map.on('draw:created', showPolygonArea);
+      map.on('draw:edited', showPolygonAreaEdited);
+    }
+
+    function showPolygonAreaEdited(e) {
+      e.layers.eachLayer(function(layer) {
+        showPolygonArea({ layer: layer });
+      });
+    }
+
+    function showPolygonArea(e) {
+      _drawingFeatureGroup.clearLayers();
+      _drawingFeatureGroup.addLayer(e.layer);
+    }
+
+    function getPolyArea()
+    {
+      var ptArray = [];
+
+      _drawingFeatureGroup.eachLayer(function (layer) {
+        ptArray = layer._latlngs;
+      });
+
+      var polyData = '';
+      for (var n=0 ; n < ptArray.length ; n++ ) {
+        var lat = ptArray[n].lat;
+        var lng = ptArray[n].lng;
+        polyData += lat + "," + lng + ";";
+      }
+
+      return polyData;
+    }
+
   }
 })();
